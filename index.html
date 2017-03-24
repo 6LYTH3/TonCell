@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>CellMeas | Editor</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./static/angular/angular.min.js"></script>
+    
+  </head>
+  <body ng-controller="MainCtr">
+    <h1>CellMeas</h1>
+    X <input type="text" id="x" ng-model="paramX"/>
+    Y <input type="text" id="y" ng-model="paramY"/>
+    <button id="modify" ng-click='Boom()'>Modify</button>
+
+  </body>
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+</html>
