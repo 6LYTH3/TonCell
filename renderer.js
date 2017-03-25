@@ -15,7 +15,7 @@ app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
   };
 
   var Readfile = function() {
-    fs.readFile('./abc.nmf', (err, data) => {
+    fs.readFile('./input.nmf', (err, data) => {
       if (err) throw err;
       FindCell(data.toString());
     });
@@ -55,7 +55,7 @@ app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
 
   var WriteNewFile = function(data) {
     if(typeof data !== 'undefined') {
-      fs.writeFile('./tmp.nmf', data, function(err) {
+      fs.writeFile('./output.nmf', data, function(err) {
         if(err) throw err
       });
     }
