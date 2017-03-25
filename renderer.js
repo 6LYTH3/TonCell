@@ -5,46 +5,59 @@ const fs = require('fs');
 
 var app = angular.module('mainApp', []);
 app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
-    $scope.Boom = function () {
-        if (typeof $scope.paramX !== 'undefined' && typeof $scope.paramY !== 'undefined') {
-            console.log($scope.paramX + " : " + $scope.paramY);
-            Readfile();
-        } else {
-            console.log("Hacking");
-        }
-    };
+  $scope.Boom = function () {
+    if (typeof $scope.paramX !== 'undefined' && typeof $scope.paramY !== 'undefined') {
+      console.log($scope.paramX + " : " + $scope.paramY);
+      Readfile();
+    } else {
+      console.log("Hacking");
+    }
+  };
 
-    var Readfile = function () {
-        fs.readFile('./abc.mf', (err, data) => {
-            if (err) throw err;
-            FindCell(data.toString());
-        });
+  var Readfile = function() {
+    fs.readFile('./abc.nmf', (err, data) => {
+      if (err) throw err;
+      FindCell(data.toString());
+    });
+  }
+
+  var FindCell = function(data) {
+    var input = data.split("\n");
+    var output = "";
+    var pattern = /^CELLMEAS/g;
+
+    input.forEach(function (v) {
+      var reArray = pattern.exec(v);
+      if(reArray != null) {
+        output += ReplaceX(reArray.input) + "\n";
+      } else {
+        output += v + "\n";
+      }
+
+    }, this);
+    // console.log(output);
+    WriteNewFile(output);
+  }
+
+  var ReplaceX = function(data) {
+    var input = data.trim().split(",");
+    var output = "";
+
+    if (parseInt(input[12]) > parseInt($scope.paramX)) {
+      input[12] = $scope.paramY;
     }
 
-    var FindCell = function (data) {
-        var input = data.split("\n");
-        var output = "";
-        var pattern = /^CELL/g;
+    input.forEach(function (v) {
+      output += v + ",";
+    }, this);
+    return output.slice(0, -1); // Remove last Character
+  }
 
-        input.forEach(function (v) {
-            var reArray = pattern.exec(v);
-            if(reArray != null) {
-                output += ReplaceX(reArray.input) + "\n";
-            } else {
-                output += v + "\n";
-            }
-
-        }, this);
-        console.log(output);
+  var WriteNewFile = function(data) {
+    if(typeof data !== 'undefined') {
+      fs.writeFile('./tmp.nmf', data, function(err) {
+        if(err) throw err
+      });
     }
-
-    var ReplaceX = function(data) {
-        var input = data.split(",");
-        var output = "";
-        input[4] = $scope.paramX;
-        input.forEach(function (v) {
-            output += v + ",";
-        }, this);
-        return output;
-    }
+  }
 }]);
