@@ -15,7 +15,7 @@ app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
   };
 
   var Readfile = function() {
-    fs.readFile('/tmp/input.nmf', (err, data) => {
+    fs.readFile('./input.nmf', (err, data) => {
       if (err) throw err;
       FindCell(data.toString());
     });
@@ -43,8 +43,32 @@ app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
     var input = data.trim().split(",");
     var output = "";
 
-    if (parseInt(input[12]) > parseInt($scope.paramX)) {
+    if (parseFloat(input[12]) < parseFloat($scope.paramX)) {
       input[12] = $scope.paramY;
+    }
+
+    if (parseFloat(input[21]) < parseFloat($scope.paramX)) {
+      input[21] = $scope.paramY;
+    }
+
+    if (parseFloat(input[30]) < parseFloat($scope.paramX)) {
+      input[30] = $scope.paramY;
+    }
+
+    if (parseFloat(input[39]) < parseFloat($scope.paramX)) {
+      input[39] = $scope.paramY;
+    }
+
+    if (parseFloat(input[48]) < parseFloat($scope.paramX)) {
+      input[48] = $scope.paramY;
+    }
+
+    if (parseFloat(input[57]) < parseFloat($scope.paramX)) {
+      input[57] = $scope.paramY;
+    }
+
+    if (parseFloat(input[66]) < parseFloat($scope.paramX)) {
+      input[66] = $scope.paramY;
     }
 
     input.forEach(function (v) {
@@ -55,7 +79,7 @@ app.controller('MainCtr', ['$scope', '$http', function ($scope, $http) {
 
   var WriteNewFile = function(data) {
     if(typeof data !== 'undefined') {
-      fs.writeFile('/tmp/output.nmf', data, function(err) {
+      fs.writeFile('./output.nmf', data, function(err) {
         if(err) throw err
       });
     }
